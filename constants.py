@@ -2,6 +2,9 @@ from enum import Enum
 
 
 class Action(Enum):
+    """
+    Константы для команд. Для использования в классе custom_database.CustomDataBase
+    """
     GET = 'GET'
     SET = 'SET'
     UNSET = 'UNSET'
@@ -25,6 +28,9 @@ class WrongInputException(Exception):
 
 
 class WrongInputText(Enum):
+    """
+    Текстовые сообщения для исключений  WrongInputException
+    """
     NO_ARGUMENT_NAME = "Ошибка: Отсутствует аргумент и его значение."
     NO_ARGUMENT_VALUE = "Ошибка: Отсутствует значение аргумента."
     UNKNOWN_COMMAND = "Ошибка: Неизвестная команда. Для получения справки введите HELP"

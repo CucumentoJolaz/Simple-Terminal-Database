@@ -18,7 +18,13 @@ class InputFilter:
         self.input_string = input_string
         self.error = None
 
-    def is_valid(self):
+    def is_valid(self) -> bool:
+        """
+        Парсинг полученной строки при инициализации, и генерация словаря с
+        параметрами (self.cleaned_data), если строка валидна.
+        Возвращает True если строка валидна, и False если нет.
+        :return bool:
+        """
         arguments = self.input_string.split()
         structured_command = {
             'command': None,

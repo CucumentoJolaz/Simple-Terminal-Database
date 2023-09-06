@@ -4,6 +4,11 @@ from input_filter import InputFilter
 
 
 def main():
+    """
+    Основная функция для обработки логики с предоставлением пользователю простейшего
+    интерфейса, фильтрацией команд пользователя, и исполнения этих команд.
+    :return:
+    """
     database = CustomDataBase()
     while True:
         user_input = input("> ")
