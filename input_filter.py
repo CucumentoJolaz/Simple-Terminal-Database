@@ -1,5 +1,6 @@
 from constants import Action, WrongInputException, WrongInputText
-
+import logging
+logger = logging.getLogger(__name__)
 
 class InputFilter:
     """
@@ -25,6 +26,7 @@ class InputFilter:
         Возвращает True если строка валидна, и False если нет.
         :return bool:
         """
+        logging.debug(f'Проверка валидности следующей строки "{self.input_string}"')
         arguments = self.input_string.split()
         structured_command = {
             'command': None,
@@ -68,5 +70,6 @@ class InputFilter:
         if self.error:
             return False
         else:
+            logger.debug(f'Строка валидна.')
             self.cleaned_data = structured_command.copy()
             return True

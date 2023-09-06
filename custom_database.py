@@ -1,7 +1,9 @@
 from typing import Any, List, Union
+import logging
 
 from constants import Action, WrongInputException, WrongInputText
 
+logger = logging.getLogger(__name__)
 
 class CustomDataBase:
     """
@@ -16,6 +18,7 @@ class CustomDataBase:
 
 
     def __init__(self) -> None:
+        logger.debug('Создание новой базы данных.')
         self.database = {}
         self.transaction_stack = []
 
@@ -26,9 +29,12 @@ class CustomDataBase:
         :param key:
         :return:
         """
+        logger.debug(f'Получение значения параметра {key} из базы данных')
         if key in self.database:
+            logger.debug(f'Значение найдено в базе данных')
             return self.database[key]
         else:
+            logger.warning(f'Значение {key} не найдено в базе данных')
             raise WrongInputException(Action.GET, key=key, message=WrongInputText.NULL.value)
 
     def set(self, key: str, value: str) -> None:
@@ -38,6 +44,7 @@ class CustomDataBase:
         :param value:
         :return:
         """
+        logger.debug(f'Установка значения {key} : {value} в базу данных.')
         self.database[key] = value
 
     def unset(self, key: str) -> None:
@@ -48,6 +55,7 @@ class CustomDataBase:
         :return:
         """
         if key in self.database:
+            logger.debug(f'Удаление значения {key} из базы данных.')
             del self.database[key]
         else:
             raise WrongInputException(Action.UNSET, key=key,
@@ -60,6 +68,7 @@ class CustomDataBase:
         :param value:
         :return:
         """
+        logger.debug(f'counts. Поиск сколько раз {value} встречается в базе данных.')
         return sum([1 for v in self.database.values() if v == value])
 
     def find(self, value: Any) -> List[str]:
@@ -69,6 +78,7 @@ class CustomDataBase:
         :param value:
         :return:
         """
+        logger.debug(f'find. Поиск всех ключей для значения {value}.')
         return [k for k, v in self.database.items() if v == value]
 
     def begin_transaction(self) -> None:
@@ -76,6 +86,7 @@ class CustomDataBase:
         Начать транзакцию для базы данных.
         :return:
         """
+        logger.debug(f'begin_transaction. Открытие транзакции в базе данных.')
         self.transaction_stack.append(self.database.copy())
 
     def rollback_transaction(self) -> None:
@@ -84,6 +95,7 @@ class CustomDataBase:
         Если активных транзакций нет - возбуждает исключение WrongInputException.
         :return:
         """
+        logger.debug(f'begin_transaction. Отмена транзакции в базе данных.')
         if self.transaction_stack:
             self.database = self.transaction_stack.pop()
         else:
@@ -95,6 +107,7 @@ class CustomDataBase:
         Если активных транзакций нет - возбуждает исключение WrongInputException.
         :return:
         """
+        logger.debug(f'begin_transaction. Внесение данных в транзакции в базу данных.')
         if self.transaction_stack:
             self.transaction_stack.pop()
         else:
@@ -113,6 +126,7 @@ class CustomDataBase:
         :param value:
         :return:
         """
+        logger.debug(f'execute_command. Выполнение команды с параметрами. command={command}, key={None}, value={None}')
         if command is Action.SET:
             self.set(key, value)
             return

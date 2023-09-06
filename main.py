@@ -1,7 +1,15 @@
+import logging
+
 from constants import Action, WrongInputException, HELP_TEXT
 from custom_database import CustomDataBase
 from input_filter import InputFilter
 
+
+logging.basicConfig(filename='app.log',
+                        filemode='w',
+                        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                        level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 def main():
     """
@@ -10,6 +18,7 @@ def main():
     :return:
     """
     database = CustomDataBase()
+
     while True:
         user_input = input("> ")
         try:
@@ -25,12 +34,14 @@ def main():
                 result = database.execute_command(**input_filter.cleaned_data)
 
                 if result is not None:
+                    logger.info(f"Результат выполненной команды: {result}")
                     print(result)
 
             else:
                 raise input_filter.error
 
         except WrongInputException as e:
+            logger.warning(e)
             print(e)
 
 
