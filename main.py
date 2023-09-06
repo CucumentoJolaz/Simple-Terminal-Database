@@ -20,9 +20,15 @@ def main():
     database = CustomDataBase()
 
     while True:
-        user_input = input("> ")
+        try:
+            user_input = input("> ")
+        except EOFError:
+            print("База данных заканчивает работу.")
+            break
+
         try:
             input_filter = InputFilter(user_input)
+
             if input_filter.is_valid():
                 if input_filter.cleaned_data['command'] is Action.END:
                     print("База данных заканчивает работу.")
@@ -43,6 +49,9 @@ def main():
         except WrongInputException as e:
             logger.warning(e)
             print(e)
+
+
+
 
 
 
