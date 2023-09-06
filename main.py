@@ -5,18 +5,18 @@ from custom_database import CustomDataBase
 from input_filter import InputFilter
 
 
-logging.basicConfig(filename='app.log',
-                        filemode='w',
-                        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                        level=logging.DEBUG)
-logger = logging.getLogger(__name__)
-
 def main():
     """
     Основная функция для обработки логики с предоставлением пользователю простейшего
     интерфейса, фильтрацией команд пользователя, и исполнения этих команд.
     :return:
     """
+    logging.basicConfig(filename='app.log',
+                        filemode='w',
+                        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                        level=logging.DEBUG)
+    logger = logging.getLogger(__name__)
+
     database = CustomDataBase()
 
     while True:
@@ -49,10 +49,6 @@ def main():
         except WrongInputException as e:
             logger.warning(e)
             print(e)
-
-
-
-
 
 
 if __name__ == '__main__':

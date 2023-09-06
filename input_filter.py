@@ -1,5 +1,6 @@
 from constants import Action, WrongInputException, WrongInputText
 import logging
+
 logger = logging.getLogger(__name__)
 
 class InputFilter:
